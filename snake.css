@@ -5,6 +5,16 @@
 }
 
 body{
-    font-family: 'Courier New', Courier, monospace;
+    font-family: "Sigmar", serif;
     text-align: center;
 }
+
+#spillBrett{
+    border: 15px solid #578a34;
+}
+
+#scoreBoard > p{
+    display: inline;
+    margin: 0 10px;
+}
+

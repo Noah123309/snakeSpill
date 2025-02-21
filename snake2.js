@@ -1,75 +1,75 @@
-//Variabler spillbrett
+// Spillbrett-variabler
 const blockStr = 25;
 const rad = 15;
 const col = 17;
 let spillBrett;
 let context;
 
-//variabler slangen
-let snakeX = blockStr * 5
-let snakeY = blockStr * 5
+// Slange-variabler
+let snakeX = blockStr * 5;
+let snakeY = blockStr * 5;
 let fartX = 0;
 let fartY = 0;
 let snakeBody = [];
 
-//variabler eple
+// Eple-variabler
 let epleX;
 let epleY;
 
-//variabel score
+// Score-variabel
 let score = 0;
 
-//variabel gameOver
+// Game over
 let gameOver = false;
 
 window.onload = function () {
-    //lager spillbrettet
+    // Lager spillbrettet
     spillBrett = document.getElementById("spillBrett");
     spillBrett.height = rad * blockStr;
     spillBrett.width = col * blockStr;
-    context = spillBrett.getContext("2d"); //sier at spillet skal være 2d (vi tegner i 2d)
+    context = spillBrett.getContext("2d");
 
     flyttEple();
     document.addEventListener("keydown", endreRetning);
-    setInterval(update, 1000 / 10)
-}
-
+    setInterval(update, 1000 / 10);
+};
 
 function update() {
     if (gameOver) return;
 
-    //fargen på brettet 
+    // Farge på spillbrettet
     context.fillStyle = "rgb(81, 235, 71)";
     context.fillRect(0, 0, spillBrett.width, spillBrett.height);
-    // fikser ruter
+
     for (let r = 0; r < rad; r++) {
         for (let c = 0; c < col; c++) {
-            if ((r + c) % 2 != 0) {
+            if ((r + c) % 2 !== 0) { 
                 context.fillStyle = "rgb(158, 235, 71)";
                 context.fillRect(c * blockStr, r * blockStr, blockStr, blockStr);
             }
         }
     }
 
-    //tegner eplet
+    // Tegner eplet
     context.fillStyle = "red";
     context.fillRect(epleX, epleY, blockStr, blockStr);
 
-    if (snakeX == epleX && snakeY == epleY) {
-        snakeBody.push([epleX, epleY])
-        flyttEple();
+    // Slangen spiser eplet
+    if (snakeX === epleX && snakeY === epleY) {
+        snakeBody.push([epleX, epleY]);
         oppdaterScore();
+        flyttEple();
     }
 
-    //flytter snaken
+    // Flytter slange-kroppen
     for (let i = snakeBody.length - 1; i > 0; i--) {
         snakeBody[i] = snakeBody[i - 1];
     }
-
     if (snakeBody.length) {
         snakeBody[0] = [snakeX, snakeY];
     }
 
+    // Tegner slangen
     context.fillStyle = "rgb(91, 105, 215)";
     snakeX += fartX * blockStr;
     snakeY += fartY * blockStr;
@@ -79,66 +79,66 @@ function update() {
         context.fillRect(snakeBody[i][0], snakeBody[i][1], blockStr, blockStr);
     }
 
-    //game over conditions
+    // Game over betingelser
     if (snakeX < 0 || snakeX >= col * blockStr || snakeY < 0 || snakeY >= rad * blockStr) {
         gameOverFunc();
     }
 
     for (let i = 0; i < snakeBody.length; i++) {
-        if (snakeX == snakeBody[i][0] && snakeY == snakeBody[i][1]) {
+        if (snakeX === snakeBody[i][0] && snakeY === snakeBody[i][1]) {
             gameOverFunc();
         }
     }
 }
 
+// Oppdaterer score
 function oppdaterScore() {
     score++;
     document.getElementById("scoreTeller").innerText = "Score: " + score;
 }
 
+// Resetter spillet ved game over
 function gameOverFunc() {
     gameOver = true;
-    alert("Game Over");
+    alert("Du er ferdig brur");
 
-    //nulstilling av scoren
+    // Nullstill score
     score = 0;
     document.getElementById("scoreTeller").innerText = "Score: 0";
 
-    //sånn at du ikke starter der du sluttet forrige gang
-    snakeX = blockStr * 5
-    snakeY = blockStr * 5
+    
+    // Reset spilltilstand
+    snakeX = blockStr * 5;
+    snakeY = blockStr * 5;
     fartX = 0;
     fartY = 0;
     snakeBody = [];
     gameOver = false;
-
+    
     flyttEple();
+    
 }
 
-//endre retning på slangen
+// Endrer retning på slangen
 function endreRetning(f) {
-    if (f.code == "ArrowUp" && fartY != 1) {
+    if (f.code === "ArrowUp" && fartY !== 1) {
         fartX = 0;
         fartY = -1;
-    }
-    else if (f.code == "ArrowDown" && fartY != -1) {
+    } else if (f.code === "ArrowDown" && fartY !== -1) {
         fartX = 0;
         fartY = 1;
-    }
-    else if (f.code == "ArrowLeft" && fartX != 1) {
+    } else if (f.code === "ArrowLeft" && fartX !== 1) {
         fartX = -1;
         fartY = 0;
-    }
-    else if (f.code == "ArrowRight" && fartX != -1) {
+    } else if (f.code === "ArrowRight" && fartX !== -1) {
         fartX = 1;
         fartY = 0;
     }
 }
 
-//flytt eple til random sted 
+// Flytter eplet til en ny tilfeldig posisjon
 function flyttEple() {
-    epleX = Math.floor(Math.random() * col) * blockStr
-    epleY = Math.floor(Math.random() * rad) * blockStr
+    epleX = Math.floor(Math.random() * col) * blockStr;
+    epleY = Math.floor(Math.random() * rad) * blockStr;
 }
-
 
