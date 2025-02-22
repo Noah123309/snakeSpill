@@ -1,20 +1,19 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body{
+body {
     font-family: "Sigmar", serif;
     text-align: center;
 }
 
-#spillBrett{
+#spillBrett {
     border: 15px solid #578a34;
 }
 
-#scoreBoard > p{
-    display: inline;
-    margin: 0 10px;
+#scoreBoard>p {
+    display: flex;
+    justify-content: center;
 }
-
